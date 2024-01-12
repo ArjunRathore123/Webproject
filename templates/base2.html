@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive navigation bar</title>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+
+        *{
+            margin:0;
+            padding: 0;
+            text-decoration: none;
+            list-style: none;
+            box-sizing: border-box;
+        }
+        
+        html{
+            overflow-x: hidden;
+        }
+        
+        body{
+            overflow-x: hidden;
+        }
+        
+        .header{
+            padding: 0 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #43C6AC;  
+            background: -webkit-linear-gradient(to right, #191654, #3e7f72);  
+            background: linear-gradient(to right, #191654, #3a7468); 
+        }
+        
+        .logo{
+            color:white;
+            font-size: 1.5rem;
+            /* line-height: 80px; */
+            font-weight: bold;
+            display: flex;
+        }
+        
+        .logo h2{
+            padding-left: 0.6rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .logo img{
+            width: 6vw;
+            height: 12vh;
+            border-radius: 100%;
+        }
+        
+        span{
+            color: #5bd485;
+        }
+        
+        .navbar .ul-list{
+            display: flex;
+            gap: 2rem;
+        }
+        
+        /* .navbar .ul-list li{
+            line-height: 80px;
+        } */
+        
+        .navbar .ul-list li a{
+            color: white;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            /* padding: 0.5rem; */
+        }
+        
+        .navbar .ul-list li a:hover,a:active{
+            color: red;
+            font-size: 1.25rem;
+        }
+        
+        
+        
+        /* ============ icon button ============= */
+        
+        .mobile-navbar-btn{
+            display: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        .mobile-nav-icon{
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+        .mobile-nav-icon[name="close-outline"]{
+            display: none;
+        }
+        
+        
+        
+        /* ================= Main section ================= */
+        
+        main{
+            width: 100%;
+            height: 80vh;
+            background-color: rgb(159, 180, 173);
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+        main h1{
+            font-size: 50px;
+        }
+        
+        
+        
+        /* =============== for responsive ============== */
+        
+        @media (max-width:980px){
+            .logo{
+                color:white;
+                font-size: 1.2rem;
+            }
+            .navbar .ul-list li a{
+                color: white;
+                font-size: 15px;
+            }
+            .logo img{
+                height: 10vh;
+            }
+            main h1{
+                font-size: 40px;
+            }
+        }
+        
+        @media (max-width:860px){
+            .mobile-navbar-btn{
+                display: block;
+                z-index: 999;
+            }
+            .navbar .ul-list li{
+                line-height: 60px;
+            }
+            .navbar .ul-list li a{
+                font-size: 1rem;
+            }
+        
+            header{
+                position: relative;
+            }
+            .logo img{
+                height: 6vh;
+            }
+        
+            .navbar{
+                width: 100%;
+                height: 63vh;
+                background: black ;
+                position: absolute;
+                top: 40px;
+                left: 0;
+        
+                display: flex;
+                justify-content: center;
+                align-items: center;
+        
+                transform: translateX(100%);
+                transition: all 0.5s linear;
+            }
+        
+            .navbar .ul-list{
+                flex-direction: column;
+                align-items: center;
+                gap: 0px;
+            }
+        
+            .navbar .ul-list li a:hover,a:active{
+                color: #5bd485;
+                font-size: 1.25rem;
+            }
+        
+            .active .navbar{
+                transform: translateX(0);
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+        
+            .active .mobile-navbar-btn .mobile-nav-icon[name="close-outline"]{
+                display: block;
+            }
+            .active .mobile-navbar-btn .mobile-nav-icon[name="menu-outline"]{
+                display: none;
+            }
+        
+        }
+        
+        
+        /* Footer Style   */
+        footer{
+            
+            bottom: 0%;
+            background-color: #0b0028;
+            color: whitesmoke;
+            height: 19.2vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+          
+        .namelink{
+            text-decoration: none;
+            font-size: 1rem;
+            color: aqua;
+        }
+        .cart-icon {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px; 
+            right: -8px; 
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .dropdown-men{
+            display:flex;
+        }
+    </style>
+</head>
+ {%load static%} 
+<body>
+  
+    <header class="header active">
+        
+        <label class="logo">
+            <img src="{% static 'flipkartlogo.jpg' %} " alt="logo image">
+			<h2>Flip<span>kart</span> </h2>
+        </label>
+        {% if user.is_authenticated %}
+        <nav class="navbar">
+            <ul class="ul-list">
+				<li><a href="{% url 'index'%}" class="active">Home</a></li>   
+				<li><a href="{% url 'contactus'%}">Contact</a></li>
+                <li><a href="{% url 'category'%}">Sell</a></li>
+				<li class="dropdown"><a data-toggle="dropdown" href=""><span class="caret"></span>{{user.first_name}}</a>
+                <ul class="dropdown-men">
+                    <li><a href="{% url 'handlelogout' %}">Logout</a></li>
+                    <li><a href="{% url 'sellerviewbalance' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                        <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+                      </svg>Wallet</a></li>
+                  </ul>
+                  </ul>
+               
+            </ul>
+        </nav>
+
+        <div class="mobile-navbar-btn">
+            <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+            <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+        </div>
+        {%else%}
+        <nav class="navbar">
+            <ul class="ul-list">
+				<li><a href="{%url 'index' %}" class="active">Home</a></li>   
+				<li><a href="{% url 'contactus'%}">Contact</a></li>
+				<li><a href="{%url 'sellerregister' %}">Register/Login</a></li>
+               
+            </ul>
+        </nav>
+
+        <div class="mobile-navbar-btn">
+            <ion-icon name="menu-outline" class="mobile-nav-icon"></ion-icon>
+            <ion-icon name="close-outline" class="mobile-nav-icon"></ion-icon>
+        </div>
+        {%endif%}
+    </header>
+     {%block sellhome %}{% endblock sellhome %}
+     {% block sellsignup %}{% endblock sellsignup %}
+     {% block sellsignin %}{% endblock sellsignin %}
+     {% block wallet %}{% endblock wallet %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+    <footer>
+		&copy;2023 India, All Rights Reserved by &nbsp;<i class="fa-brands fa-github fa-beat" style="color: #32e10e;"></i> &nbsp;  
+	</footer>
+
+</body>
+</html>

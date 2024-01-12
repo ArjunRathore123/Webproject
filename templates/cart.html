@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .cart-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .cart-item-details {
+        display: flex;
+        align-items: center;
+    }
+    
+    .cart-item-name {
+        font-weight: bold;
+        margin-right: 10px;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .remove-from-cart-btn,
+    .quantity-btn {
+        background-color: #ff6347;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .remove-from-cart-btn:hover,
+    .quantity-btn:hover {
+        background-color: #e74c3c;
+    }
+    
+    .cart-item-quantity {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+    .item{
+        display: flex;
+        flex-direction: row-reverse;
+        padding-right: 10px;
+        padding-top: 2px;
+    }
+    
+    
+    .cart-item-price{
+        font-weight: bold;
+    }
+    
+    .continue-shopping-link {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #3498db;
+        font-weight: bold;
+    }
+    
+    .continue-shopping-link:hover {
+        text-decoration: underline;
+    }
+    .shopping-button {
+        display: inline-block;
+        background-color: #3da4d3; 
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border:None;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    .checkout-button {
+        display: inline-block;
+        background-color: #28a745; 
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        margin-top: 20px;
+        margin-left: 400px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    
+    .checkout-button:hover {
+        background-color: #218838;
+    }
+  
+</style>
+
+<div class="container">
+    <div class="cart-header">
+        <h1>Your Cart</h1>
+    </div>
+    <ul>
+        {% for item in cartitem %}
+        <li class="cart-item">
+            <div class="cart-item-details">
+                {% if item.product.quantity > 0 %}
+                <div class="cart-item-name"><img src="{{ item.product.product_image.url }}" alt="No image" width='100px' height='100px'></a></div>
+                <div class="cart-item-name">{{ item.product.product_name }}</a></div>
+                {% else %}
+                <div class="cart-item-name"><img src="{{ item.product.product_image.url }}" alt="No image" width='100px' height='100px'></a></div>
+                <div class="cart-item-name">{{ item.product.product_name }}</a></div>
+                <p class="out-of-stock-message">Out of Stock</p>
+                {% endif %}
+               
+                <form action="/remove-from-cart/{{item.product.id}}/" method="post">
+                    {% csrf_token %}
+                    <button class="remove-from-cart-btn" type="submit">Remove</button>
+                </form>
+               
+            </div>
+            <div class="cart-item-quantity">
+                {% if item.product.quantity > 0 %}
+               
+                <form action="/increase_cart_item_quantity/{{item.product.id}}/" method="post">
+                    {% csrf_token %}
+                    
+                    <button class="quantity-btn increase-quantity" type="submit">+</button>
+                   
+                </form>
+                <span class="item-quantity" data-price="{{item.quantity}}">{{ item.quantity }}</span>
+                <form action="/decrease_cart_item_quantity/{{item.product.id}}/" method="post">
+                    {% csrf_token %}
+                    <button class="quantity-btn decrease-quantity" type="submit">-</button>
+                </form>
+                {% else %}
+                <form action="/increase_cart_item_quantity/{{item.product.id}}/" method="post">
+                    {% csrf_token %}
+                    <button class="quantity-btn increase-quantity" type="submit">+</button>
+                </form>
+                <span class="item-quantity" data-price="{{item.quantity}}">{{ item.quantity }}</span>
+                <form action="/decrease_cart_item_quantity/{{item.product.id}}/" method="post">
+                    {% csrf_token %}
+                    <button class="quantity-btn decrease-quantity" type="submit">-</button>
+                </form>
+                
+                {% endif %}
+                
+                
+            </div>
+            <div class="cart-item-price" data-price="{{ item.subtotal }}">
+                ₹{{ item.subtotal }}
+            </div>
+               
+            
+        </li>    
+        {% endfor %}
+    </ul>     
+        <div class="cart-item-price item" data-price="{{total_price}}">
+            ₹{{ total_price }}
+        </div>   
+        <a class="shopping-button" href="{% url 'category' %}">Continue Shopping</a>
+        <a class="checkout-button" href="{% url 'checkout' %}">Checkout</a>
+        
+        
+    {% comment %} <button id="rzp-button1" class="checkout-button" >Checkout</button> {% endcomment %}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    var options = {
+        "key": "rzp_test_0MituASxbAtkep", // Enter the Key ID generated from the Dashboard
+        "amount": "{{payment.amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Flipkart",
+        "description": "Purchase",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{payment.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+            console.log('Success')
+            window.location.href=`http://127.0.0.1:8000/success/?order_id={{payment.id}}`
+           
+        },
+        "prefill": {
+            "name": "{{request.user.first_name}}",
+            "email": "{{request.user.email}}",
+            "contact": "{{request.user.contact}}"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+</div>
+
+{% endblock content%}
