@@ -83,19 +83,14 @@ def remove_cart(request,pk):
 def increase_cart_item_quantity(request,pk):
     product=Product.objects.get(id=pk)
     cart_item=get_object_or_404(CartItem,product=product,user=request.user)
-       
-    if product.quantity>0:
-       
-        cart_item.quantity+=1
-        product.quantity-=1
 
-        product.save()
-        cart_item.save()
+    cart_item.quantity+=1
+    product.quantity-=1
+
+    product.save()
+    cart_item.save()
+
          
-
-    else:
-        pass
-
     return redirect('cart')
 
 def decrease_cart_item_quantity(request,pk):
@@ -107,8 +102,12 @@ def decrease_cart_item_quantity(request,pk):
         product.quantity=product.quantity+1
         product.save()
         cart_item.save()
+    else:
+        product.quantity=product.quantity+1
+        product.save()
+        cart_item.delete()    
     return redirect('cart')
-
+    
 
 def checkout(request):   
     cart_item=CartItem.objects.filter(user=request.user)
@@ -156,7 +155,7 @@ def success(request):
     user=get_object_or_404(CustomUser,id=request.user.id)
     wallet=get_object_or_404(Wallet,user=user)
     admin_user=get_object_or_404(CustomUser,email='admin@gmail.com')
-    admin_wallet=AdminWallet.objects.get(user=admin_user)
+    admin_wallet,created=AdminWallet.objects.get_or_create(user=admin_user)
   
     print('--------------------------')
     print(user,wallet,admin_user)
@@ -181,8 +180,10 @@ def success(request):
             admin_wallet.balance+= admin_commssion 
 
             
-            seller=CustomUser.objects.get(is_active=True,user_type='seller')
-            seller_wallet=SellerWallet.objects.get(user=seller)
+            seller = order.product.user
+            print(seller)
+            print("")
+            seller_wallet,created=SellerWallet.objects.get_or_create(user=seller)
             seller_wallet.balance+=order_amount-admin_commssion
             seller_wallet.save()
 

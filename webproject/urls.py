@@ -17,15 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from rest_framework.routers import DefaultRouter
-from buyers.api.views import UserView
-router=DefaultRouter()
-router.register('user',UserView,basename='user')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('buyers.urls')),
     path('',include('products.urls')),
     path('',include('sellers.urls')),
     path('buyerApi/',include('buyers.api.urls')),
+    path('sellerApi/',include('sellers.api.urls')),
     path('productApi/',include('products.api.urls')),
-    path('buyerapi/',include(router.urls))
 ]

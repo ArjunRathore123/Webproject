@@ -3,10 +3,6 @@ from accounts.models import CustomUser
 
 # Create your models here.
 
-# class Seller(models.Model):
-#     user=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
-#     def __str__(self):
-#         return f'{self.user.first_name}'
     
 class Category(models.Model):
     category_image=models.ImageField(upload_to='image')
@@ -41,7 +37,7 @@ class Product(models.Model):
     quantity=models.PositiveIntegerField(default=0)
     price=models.IntegerField()
     description=models.TextField()
-    #seller=models.ForeignKey(Seller,on_delete=models.CASCADE)
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.product_name
@@ -50,7 +46,6 @@ class CartItem(models.Model):
     user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity=models.PositiveIntegerField(default=1)
-
     date_added=models.DateTimeField(auto_now_add=True)
     
     def subtotal(self):
@@ -73,7 +68,7 @@ class Order(models.Model):
     updated_at=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return '{} {} {}' .format(self.id,self.user.first_name,self.user.last_name)
+        return f'{self.id}{self.user}'
 
 
     
@@ -82,21 +77,21 @@ class Wallet(models.Model):
     balance=models.IntegerField(default=0)
     
     def __str__(self):
-        return f"{self.user.first_name}'s  Buyer Wallet"
+        return f"{self.user.first_name}'s Buyer Wallet"
 
 class AdminWallet(models.Model):
     user=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     balance=models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.user.first_name} for Admin Wallet'
+        return f"{self.user.first_name}'s Admin Wallet"
      
     
 class SellerWallet(models.Model):
     user=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     balance=models.IntegerField(default=0)
     def __str__(self):
-        return f'{self.user.first_name} for Seller Wallet'
+        return f"{self.user.first_name}'s Seller Wallet"
     
 
     

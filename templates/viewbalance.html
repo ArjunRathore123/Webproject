@@ -132,22 +132,7 @@
 			<p class="amount">$ {{wallet.balance}}</p>
 		</div>
 
-		{% comment %} <div class="btn-group text-center">
-            <form method="post" action="{% url 'deposit' %}">
-                {% csrf_token %}
-               
-                <input type="number" name="amount" required>
-                <button type="submit" class="btn btn-outline-light">Deposit</button>
-            </form>
-			</div>
-		<div class="btn-group text-center">
-            <form method="post" action="{% url 'withdraw' %}">
-                {% csrf_token %}
-               
-                <input type="number" name="amount" required>
-                <button type="submit" class="btn btn-outline-light">Withdraw</button>
-            </form>
-			</div> {% endcomment %}
+		
 			</div>
 </div>
 </body>

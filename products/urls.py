@@ -14,9 +14,6 @@ urlpatterns = [
         path('success/', success, name='success'),
         path('checkout/',checkout,name='checkout'),
         path('placeorder/<int:pk>',placeorder,name='place-order'),
-        path('viewbalance/',view_balance,name='viewbalance'),
-        # path('deposit/',deposit,name='deposit'),
-        # path('withdrawl/',withdrawl,name='withdraw'),
-        
+        path('viewbalance/',view_balance,name='viewbalance'),     
        
 ]

@@ -257,20 +257,3 @@ button:hover{
     }
     </script>
 {% endblock order %}
-{% comment %} def success(request):
-    order_id = request.GET.get('order_id')
-    order = Order.objects.get(razorpay_order_id=order_id)
-    order.is_paid = True
-    order.save()
-
-    # Update wallet balance for the buyer
-    buyer_wallet = Wallet.objects.get_or_create(user=request.user)[0]
-    buyer_wallet.balance -= order.total_amount  # Assuming you have a 'total_amount' field in your Order model
-    buyer_wallet.save()
-
-    # Add logic to update the seller's wallet balance here if needed
-    seller_wallet = Wallet.objects.get_or_create(user=order.product.seller)[0]
-    seller_wallet.balance += order.total_amount
-    seller_wallet.save()
-
-    return render(request, 'success.html', {'order_id': order_id}) {% endcomment %}

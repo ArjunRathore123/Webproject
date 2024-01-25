@@ -2,11 +2,11 @@ from django.contrib import admin
 from .models import Product,Category,Color,Brand,CartItem,Order,Wallet,SellerWallet,AdminWallet
 # Register your models her.
 class ProductAdmin(admin.ModelAdmin):
-    list_display=('id','product_name','category','brand','product_image','price','quantity','description')
-    fieldsets=((None,{"fields":('product_image','category','brand','product_name','color','price','quantity','description')}),)
+    list_display=('product_name','category','brand','product_image','price','quantity','description','user')
+    fieldsets=((None,{"fields":('product_image','category','brand','product_name','color','price','quantity','description','user')}),)
     add_fieldsets=(
         (None,{'classes':("wide",),
-               'fields':('product_image','category','brand','product_name','color','price','quantity','description')},
+               'fields':('product_image','category','brand','product_name','color','price','quantity','description','user')},
         )
     )
     search_fields=('product_name',)

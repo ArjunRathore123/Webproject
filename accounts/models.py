@@ -9,7 +9,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     last_name=models.CharField(max_length=100)
     contact=models.CharField(max_length=10)
     date_of_birth=models.DateField(null=True)
-    choice=(('male','Male'),('female','Female'),('other','Other'))
+    choice=(('male','Male'),('female','Female'),('other','Other'),('Male','Male'),('Female','Female'))
     gender=models.CharField(max_length=6,choices=choice)
     address=models.TextField()
     type_choice=[('buyer','Buyer'),('seller','Seller')]
