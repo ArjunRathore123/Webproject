@@ -13,4 +13,9 @@ urlpatterns = [
     path('send_email/', send_email,name='sendemail'),
     path('contactus/',contactus,name='contactus'),
     path('contactus/sendemail',send_email,name='sendemail'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+  urlpattern += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+  urlpattern += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
