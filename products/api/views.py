@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status,generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-import json
+
 import razorpay
 from django.conf import settings
 
@@ -373,10 +373,10 @@ class PaymentSuccessView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         data=request.data
-        print(data,"====2")
+       
         total_amount=int(request.data.get('total_price'))
         print(total_amount)
-        print("==========5",type(total_amount))
+      
 
         if order.is_paid:
             return Response({'error': 'Order is already paid'}, status=status.HTTP_400_BAD_REQUEST)
@@ -405,3 +405,7 @@ class PaymentSuccessView(APIView):
             return Response({'error':'Insufficent Balance'},status=status.HTTP_400_BAD_REQUEST)    
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+

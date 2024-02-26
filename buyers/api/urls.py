@@ -1,6 +1,6 @@
 from .views import BuyerRegisterView,BuyerLoginView,ForgetPasswordView,ChangePasswordView
 from django.urls import path
-from . import views
+
 
 urlpatterns = [
     path('register/',BuyerRegisterView.as_view(),name='buyerregister'),

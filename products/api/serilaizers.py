@@ -1,6 +1,7 @@
 from products.models import Product,Category,Brand,Color,CartItem,Order
 from rest_framework import serializers
 from accounts.models import CustomUser
+
 class SellerSerializer(serializers.ModelSerializer):
     class Meta:
         model =CustomUser

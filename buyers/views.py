@@ -57,11 +57,13 @@ def handlelogin(request):
         email=request.POST['user_login']
         password=request.POST['user_pass']
         user=authenticate(request,email=email,password=password)
+        print(user)
         if user is not None:
             user_type=user.user_type
             print(user_type)
             if user_type=='buyer':  
                 login(request,user) 
+                
                 return redirect('home')
             elif user_type=='seller':     
                 return render(request,'login.html',{'error':'Seller doesnot login'})

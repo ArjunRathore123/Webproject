@@ -134,13 +134,13 @@ body {
     <div class="form-wrap">
 		<div class="tabs">
                        
-			<h3 class="signup-tab"><a class="active" href="http://127.0.0.1:8000/signup/">Sign Up</a></h3>
-			<h3 class="login-tab"><a href="http://127.0.0.1:8000/signin/">Login</a></h3>
+			<h3 class="signup-tab"><a class="active" href="{%url 'sellerregister'%}">Sign Up</a></h3>
+			<h3 class="login-tab"><a href="{%url 'sellerlogin'%}">Login</a></h3>
 		</div><!--.tabs-->
 
 		<div class="tabs-content">
 			<div id="signup-tab-content" class="active">
-				<form class="signup-form" action="/sellersignup" method="post">
+				<form class="signup-form" action="{%url 'sellersignup'%}" method="post">
 					<input type="email" class="input" id="email_id" name="email_id" autocomplete="off" placeholder="Email">
           <input type="password" class="input" id="password1" name="password1" autocomplete="off" placeholder="Password">
           <input type="password" class="input" id="password2"  name="password2" autocomplete="off" placeholder="Confirm Password">
